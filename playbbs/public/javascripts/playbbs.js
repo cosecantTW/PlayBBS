@@ -2,21 +2,9 @@
 
 
 var Comment = React.createClass({
-  handleClickDelete: function(event) {
-    $.ajax({
-      url: this.props.url + '/' + this.props.id,
-      dataType: 'json',
-      type: 'DELETE',
-      success: function(data) {
-          React.unmountComponentAtNode(this.getDOMNode());
-        //this.setState({data: data});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url+ '/' + this.props.id, status, err.toString());
-      }.bind(this)
-    });
-  },
+  
   render: function() {
+      console.log(this.props.id);
     return (
       <div className="comment">
         <h3>
@@ -24,11 +12,11 @@ var Comment = React.createClass({
           {this.props.name}&nbsp;:&nbsp;
         </strong>
         {this.props.content}
-        </h3>
         <form className="form-inline pull-right">
         <button className="btn btn-primary">Edit</button>
-        <button className="btn btn-danger" onClick={this.handleClickDelete} >Delete</button>
+        <button className="btn btn-danger" onClick={this.props.onCommentDelete.bind(this,this.props.id)} >Delete</button>
         </form>
+        </h3>
       </div>
     );
   }
@@ -66,6 +54,19 @@ var CommentBox = React.createClass({
       });
     });
   },
+  handleCommentDelete: function(event,index,id) {
+    $.ajax({
+      url: this.props.url + '/' + id,
+      dataType: 'json',
+      type: 'DELETE',
+      success: function(data) {
+        //this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url+ '/' + this.props.id, status, err.toString());
+      }.bind(this)
+    });
+  },
   getInitialState: function() {
     return {data: []};
   },
@@ -78,7 +79,7 @@ var CommentBox = React.createClass({
       <div className="commentBox">
         <h1>Comments</h1>
         <CommentForm onCommentSubmit={this.handleCommentSubmit} />
-        <CommentList data={this.state.data} />
+        <CommentList data={this.state.data} onCommentDelete={this.handleCommentDelete} />
         
       </div>
     );
@@ -89,7 +90,7 @@ var CommentList = React.createClass({
   render: function() {
     var commentNodes = this.props.data.map(function(comment, index) {
       return (
-        <Comment name={comment.name} content={comment.content} key={index} id={comment._id} url="/comment">
+        <Comment onCommentDelete={this.props.onCommentDelete.bind(this,index)} name={comment.name} content={comment.content} key={index} id={comment._id} url="/comment">
         </Comment>
       );
     });

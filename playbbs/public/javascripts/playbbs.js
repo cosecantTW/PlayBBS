@@ -14,7 +14,7 @@ var Comment = React.createClass({
         {this.props.content}
         <form className="form-inline pull-right">
         <button className="btn btn-primary">Edit</button>
-        <button className="btn btn-danger" onClick={this.props.onCommentDelete.bind(this,this.props.id)} >Delete</button>
+        <button className="btn btn-danger" onClick={this.props.onCommentDelete.bind(this,this.props.id.str)} >Delete</button>
         </form>
         </h3>
       </div>

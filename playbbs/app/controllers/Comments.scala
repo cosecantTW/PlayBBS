@@ -23,9 +23,7 @@ object CommentsApplication extends Controller with MongoController {
   def createComment = Action.async(parse.json) { request =>
 
     request.body.validate[Comment].map { comment =>
-
-      collection.insert(comment).map { lastError =>
-        Logger.debug(s"Successfully inserted with LastError: $lastError")
+      collection.insert(comment).map { _ =>
         Created("Comment created.")
       }
     }.getOrElse(Future.successful(BadRequest("invalid json")))
@@ -44,26 +42,14 @@ object CommentsApplication extends Controller with MongoController {
     }.getOrElse(Future.successful(BadRequest("invalid json")))
   }
     */
-  def getAll = TODO
-  
-  /*
-  Action.async {
-    // let's do our query
-    val cursor: Cursor[User] = collection.
-      // find all people with name `name`
-      find(Json.obj("lastName" -> lastName)).
-      // sort them by creation date
-      sort(Json.obj("created" -> -1)).
-      // perform the query and get a cursor of JsObject
-      cursor[User]
+  def getAll = Action.async {
+    val cursor: Cursor[Comment] = collection.find().sort(Json.obj("_id" -> -1)).cursor[Comment]
 
-    // gather all the JsObjects in a list
-    val futureUsersList: Future[List[User]] = cursor.collect[List]()
+    val futureCommentsList: Future[List[Comment]] = cursor.collect[List]()
 
-    // everything's ok! Let's reply with the array
-    futureUsersList.map { persons =>
-      Ok(persons.toString)
+    futureCommentsList.map { comments =>
+      Ok(comments.toString)
     }
   }
-  */
+  
 }

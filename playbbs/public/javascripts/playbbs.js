@@ -7,7 +7,7 @@ var Comment = React.createClass({
       <div className="comment">
         <h3>
         <strong className="commentAuthor">
-          {this.props.name}&nbsp;&nbsp;:
+          {this.props.name}&nbsp;:&nbsp;
         </strong>
         {this.props.content}
         </h3>
@@ -97,10 +97,10 @@ var CommentForm = React.createClass({
   },
   render: function() {
     return (
-      <form class="form-inline" className="commentForm" onSubmit={this.handleSubmit}>
-        <input type="text" class="form-control" placeholder="Your name" ref="name" />
-        <input type="text" class="form-control" placeholder="Say something..." ref="content" />
-        <button type="submit" class="btn btn-primary" value="Post" />
+      <form className="commentForm form-inline" onSubmit={this.handleSubmit}>
+        <input type="text" className="form-control" placeholder="Your name" ref="name" />
+        <input type="text" className="form-control" placeholder="Say something..." ref="content" />
+        <button type="submit" className="btn btn-primary" value="Post" />
       </form>
     );
   }

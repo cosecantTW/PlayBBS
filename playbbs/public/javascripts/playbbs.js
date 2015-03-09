@@ -62,13 +62,13 @@ var CommentBox = React.createClass({
            type: 'DELETE',
             success: function(data) {
             //this.setState({data: comments});
-            return false;
+            return true;
          }.bind(this),
          error: function(xhr, status, err) {
           console.error(this.props.urlpost+ '/' + id, status, err.toString());
            }.bind(this)
          });
-         return false;
+         
       });
 
   },

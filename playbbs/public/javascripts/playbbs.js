@@ -14,7 +14,7 @@ var Comment = React.createClass({
         {this.props.content}
         <form className="form-inline pull-right">
         <button className="btn btn-primary">Edit</button>
-        <button className="btn btn-danger" onClick={this.props.onCommentDelete.bind(this,this.props.id.str)} >Delete</button>
+        <button className="btn btn-danger" onClick={this.props.onCommentDelete.bind(this,this.props.id)} >Delete</button>
         </form>
         </h3>
       </div>
@@ -63,7 +63,7 @@ var CommentBox = React.createClass({
         //this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error(this.props.url+ '/' + this.props.id, status, err.toString());
+        console.error(this.props.url+ '/' + id, status, err.toString());
       }.bind(this)
     });
   },
@@ -91,7 +91,7 @@ var CommentList = React.createClass({
     var onCommentDelete = this.props.onCommentDelete;
     var commentNodes = this.props.data.map(function(comment, index) {
       return (
-        <Comment onCommentDelete={onCommentDelete.bind(this,index)} name={comment.name} content={comment.content} key={index} id={comment._id} url="/comment">
+        <Comment onCommentDelete={onCommentDelete.bind(this,index)} name={comment.name} content={comment.content} key={index} id={comment._id.$oid} url="/comment">
         </Comment>
       );
     });

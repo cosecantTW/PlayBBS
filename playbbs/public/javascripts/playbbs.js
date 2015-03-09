@@ -55,11 +55,9 @@ var CommentBox = React.createClass({
     });
   },
   handleCommentDelete: function(index,id) {
-      console.log("handleCommentDelete "+index);
-      console.log("handleCommentDelete "+id);
       var comments = this.state.data;
     $.ajax({
-      url: this.props.url + '/' + id,
+      url: this.props.urlpost + '/' + id,
       dataType: 'json',
       type: 'DELETE',
       success: function(data) {
@@ -67,7 +65,7 @@ var CommentBox = React.createClass({
         this.setState({data: comments});
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error(this.props.url+ '/' + id, status, err.toString());
+        console.error(this.props.urlpost+ '/' + id, status, err.toString());
       }.bind(this)
     });
   },
@@ -94,6 +92,7 @@ var CommentList = React.createClass({
   render: function() {
     var onCommentDelete = this.props.onCommentDelete;
     var commentNodes = this.props.data.map(function(comment, index) {
+        console.log(index);
       return (
         <Comment onCommentDelete={onCommentDelete} name={comment.name} content={comment.content} key={index} id={comment._id.$oid} url="/comment">
         </Comment>

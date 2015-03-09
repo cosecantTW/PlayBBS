@@ -14,7 +14,7 @@ var Comment = React.createClass({
         {this.props.content}
         <form className="form-inline pull-right">
         <button className="btn btn-primary">Edit</button>
-        <button className="btn btn-danger" onClick={this.props.onCommentDelete.bind(null,this.props.index,this.props.id)} >Delete</button>
+        <button className="btn btn-danger" onClick={this.props.onCommentDelete.bind(this,this.props.index,this.props.id)} >Delete</button>
         </form>
         </h3>
       </div>
@@ -55,22 +55,19 @@ var CommentBox = React.createClass({
   },
   handleCommentDelete: function(index,id) {
       var comments = this.state.data;
-      //comments.splice(index,1);
-      //this.setState({data: comments}, function() {
+      comments.splice(index,1);
+      this.setState({data: comments}, function() {
          $.ajax({
           url: this.props.urlpost + '/' + id,
            type: 'DELETE',
             success: function(data) {
-            //this.setState({data: comments});
-            console.log(data);
+            this.setState({data: comments});
          }.bind(this),
          error: function(xhr, status, err) {
           console.error(this.props.urlpost+ '/' + id, status, err.toString());
            }.bind(this)
          });
-         //console.log("bp2");
-      //});
-    //console.log("bp3");
+      });
   },
   getInitialState: function() {
     return {data: []};

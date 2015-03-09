@@ -33,7 +33,7 @@ object CommentsApplication extends Controller with MongoController {
   def updateComment(id: String) = Action.async(parse.json) { request =>
 
     request.body.validate[Comment].map { comment =>
-          collection.update(Json.obj("_id" -> id), comment).map {
+          collection.update(Json.obj("_id" -> BSONObjectID(id)), comment).map {
               _ => Ok(s"Comment Updated")
           }
     }.getOrElse(Future.successful(BadRequest("invalid json")))

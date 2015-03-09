@@ -29,10 +29,10 @@ var CommentBox = React.createClass({
       dataType: 'json',
       success: function(data) {
         this.setState({data: data});
-      },
+      }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
-      }
+      }.bind(this)
     });
   },
   handleCommentSubmit: function(comment) {
@@ -63,10 +63,10 @@ var CommentBox = React.createClass({
       success: function(data) {
           comments.splice(index,1);
         this.setState({data: comments});
-      },
+      }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.urlpost+ '/' + id, status, err.toString());
-      }
+      }.bind(this)
     });
   },
   getInitialState: function() {

@@ -30,26 +30,22 @@ object CommentsApplication extends Controller with MongoController {
     }.getOrElse(Future.successful(BadRequest("invalid json")))
   }
 
-  def updateComment(id: String) = TODO
-  
-  /*Action.async(parse.json) { request =>
+  def updateComment(id: String) = Action.async(parse.json) { request =>
 
-    request.body.validate[User].map { user =>
-      // `user` is an instance of the case class `models.User`
-      collection.insert(user).map { lastError =>
-        Logger.debug(s"Successfully inserted with LastError: $lastError")
-        Created
-      }
+    request.body.validate[Comment].map { comment =>
+          collection.update(Json.obj("_id" -> id), comment).map {
+              _ => Ok(s"Comment Updated")
+          }
     }.getOrElse(Future.successful(BadRequest("invalid json")))
   }
-    */
+  
   def getAll = Action.async {
     val cursor: Cursor[JsObject] = collection.find(Json.obj()).sort(Json.obj("_id" -> -1)).cursor[JsObject]
 
     val futureCommentsList: Future[List[JsObject]] = cursor.collect[List]()
     val futureCommentsJsonArray: Future[JsArray] = futureCommentsList.map { comments =>
       //Json.arr(comments)
-      comments.foldLeft(JsArray())((acc, x) => acc ++ Json.arr(x))
+      comments.foldLeft(JsArray())((jarr, x) => jarr ++ Json.arr(x))
     }
     futureCommentsJsonArray.map { comments =>
       Ok(comments)

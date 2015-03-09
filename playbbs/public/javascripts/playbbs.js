@@ -14,7 +14,7 @@ var Comment = React.createClass({
         {this.props.content}
         <form className="form-inline pull-right">
         <button className="btn btn-primary">Edit</button>
-        <button className="btn btn-danger" onClick={this.props.onCommentDelete.bind(this,this.props.key,this.props.id)} >Delete</button>
+        <button className="btn btn-danger" onClick={this.props.onCommentDelete.bind(this,this.props.index,this.props.id)} >Delete</button>
         </form>
         </h3>
       </div>
@@ -92,9 +92,8 @@ var CommentList = React.createClass({
   render: function() {
     var onCommentDelete = this.props.onCommentDelete;
     var commentNodes = this.props.data.map(function(comment, index) {
-        console.log(index);
       return (
-        <Comment onCommentDelete={onCommentDelete} name={comment.name} content={comment.content} key={index} id={comment._id.$oid} url="/comment">
+        <Comment onCommentDelete={onCommentDelete} name={comment.name} content={comment.content} key={index} index={index} id={comment._id.$oid} url="/comment">
         </Comment>
       );
     });

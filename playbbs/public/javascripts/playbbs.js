@@ -95,12 +95,17 @@ var CommentForm = React.createClass({
     this.refs.name.getDOMNode().value = '';
     this.refs.content.getDOMNode().value = '';
   },
+  handleClickClear: function(event) {
+    this.refs.name.getDOMNode().value = '';
+    this.refs.content.getDOMNode().value = '';
+  },
   render: function() {
     return (
       <form className="commentForm form-inline" onSubmit={this.handleSubmit}>
         <input type="text" className="form-control" placeholder="Your name" ref="name" />
         <input type="text" className="form-control" placeholder="Say something..." ref="content" />
-        <button type="submit" className="btn btn-primary" value="Post" />
+        <button type="submit" className="btn btn-primary" value="Post" >Submit</button>
+        <button className="btn btn-warning" onClick={this.handleClickClear} >Clear</button>
       </form>
     );
   }

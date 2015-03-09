@@ -92,8 +92,9 @@ var CommentList = React.createClass({
   render: function() {
     var onCommentDelete = this.props.onCommentDelete;
     var commentNodes = this.props.data.map(function(comment, index) {
+        var id = (comment._id === undefined) ? "" : comment._id.$oid;
       return (
-        <Comment onCommentDelete={onCommentDelete} name={comment.name} content={comment.content} key={index} index={index} id={comment._id.$oid} url="/comment">
+        <Comment onCommentDelete={onCommentDelete} name={comment.name} content={comment.content} key={index} index={index} id={id} url="/comment">
         </Comment>
       );
     });

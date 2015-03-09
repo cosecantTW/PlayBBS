@@ -88,9 +88,10 @@ var CommentBox = React.createClass({
 
 var CommentList = React.createClass({
   render: function() {
+    var onCommentDelete = this.props.onCommentDelete;
     var commentNodes = this.props.data.map(function(comment, index) {
       return (
-        <Comment onCommentDelete={this.props.onCommentDelete.bind(this,index)} name={comment.name} content={comment.content} key={index} id={comment._id} url="/comment">
+        <Comment onCommentDelete={onCommentDelete.bind(this,index)} name={comment.name} content={comment.content} key={index} id={comment._id} url="/comment">
         </Comment>
       );
     });

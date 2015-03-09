@@ -132,8 +132,7 @@ var CommentForm = React.createClass({
       return;
     }
     this.props.onCommentSubmit({name: name, content: content}, this.state.editindex, this.state.editid);
-    this.refs.name.getDOMNode().value = '';
-    this.refs.content.getDOMNode().value = '';
+    this.handleClickClear();
   },
   handleClickClear: function(event) {
       if (this.state.editid != ""){
@@ -157,6 +156,6 @@ var CommentForm = React.createClass({
 });
 
 React.render(
-  <CommentBox url="/comments" urlpost="/comment"  pollInterval={5000} />,
+  <CommentBox url="/comments" urlpost="/comment"  pollInterval={3000} />,
   document.getElementById('content')
 );

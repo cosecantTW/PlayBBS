@@ -35,14 +35,14 @@ object CommentsApplication extends Controller with MongoController {
 
     request.body.validate[Comment].map { comment =>
           collection.update(Json.obj("_id" -> BSONObjectID(id)), comment).map {
-              _ => Ok(s"Comment Updated")
+              _ => Ok("Comment Updated")
           }
     }.getOrElse(Future.successful(BadRequest("invalid json")))
   }
   
   def deleteComment(id: String) = Action.async { 
         collection.remove(Json.obj("_id" -> BSONObjectID(id))).map {
-            _ => Ok(s"Comment Updated")
+            _ => Ok("Comment Deleted")
         }
   }
   

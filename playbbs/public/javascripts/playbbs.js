@@ -3,13 +3,11 @@
 
 var Comment = React.createClass({
   render: function() {
-    var rawMarkup = this.props.children.toString();
     return (
       <div className="comment">
         <h2 className="commentAuthor">
           {this.props.name}
         </h2>
-        <span dangerouslySetInnerHTML={{__html: rawMarkup}} />
       </div>
     );
   }
@@ -30,7 +28,7 @@ var CommentBox = React.createClass({
   },
   handleCommentSubmit: function(comment) {
     var comments = this.state.data;
-    comments.push(comment);
+    comments.unshift(comment);
     this.setState({data: comments}, function() {
       $.ajax({
         url: this.props.urlpost,
@@ -58,8 +56,9 @@ var CommentBox = React.createClass({
     return (
       <div className="commentBox">
         <h1>Comments</h1>
-        <CommentList data={this.state.data} />
         <CommentForm onCommentSubmit={this.handleCommentSubmit} />
+        <CommentList data={this.state.data} />
+        
       </div>
     );
   }

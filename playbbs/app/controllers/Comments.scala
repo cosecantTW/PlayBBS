@@ -10,7 +10,8 @@ import reactivemongo.api._
 import reactivemongo.bson._
 
 import play.modules.reactivemongo.MongoController
-import play.modules.reactivemongo.json._
+import play.modules.reactivemongo.json.collection.JSONCollection
+import play.modules.reactivemongo.json.BSONFormats._
 
 object CommentsApplication extends Controller with MongoController {
 

@@ -48,7 +48,8 @@ object CommentsApplication extends Controller with MongoController {
 
     val futureCommentsList: Future[List[JsObject]] = cursor.collect[List]()
     val futureCommentsJsonArray: Future[JsArray] = futureCommentsList.map { comments =>
-      Json.arr(comments)
+      //Json.arr(comments)
+      comments.foldLeft(JsArray())((acc, x) => acc ++ Json.arr(x))
     }
     futureCommentsJsonArray.map { comments =>
       Ok(comments)

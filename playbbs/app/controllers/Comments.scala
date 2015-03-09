@@ -43,7 +43,7 @@ object CommentsApplication extends Controller with MongoController {
   }
     */
   def getAll = Action.async {
-    val cursor: Cursor[Comment] = collection.find().sort(Json.obj("_id" -> -1)).cursor[Comment]
+    val cursor: Cursor[Comment] = collection.find(Json.obj()).sort(Json.obj("_id" -> -1)).cursor[Comment]
 
     val futureCommentsList: Future[List[Comment]] = cursor.collect[List]()
 

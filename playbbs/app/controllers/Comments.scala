@@ -40,6 +40,12 @@ object CommentsApplication extends Controller with MongoController {
     }.getOrElse(Future.successful(BadRequest("invalid json")))
   }
   
+  def deleteComment(id: String) = Action.async { 
+        collection.remove(Json.obj("_id" -> BSONObjectID(id))).map {
+            _ => Ok(s"Comment Updated")
+        }
+  }
+  
   def getAll = Action.async {
     val cursor: Cursor[JsObject] = collection.find(Json.obj()).sort(Json.obj("_id" -> -1)).cursor[JsObject]
 

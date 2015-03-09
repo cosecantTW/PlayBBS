@@ -4,7 +4,7 @@
 var Comment = React.createClass({
   
   render: function() {
-      console.log(this.props.id);
+      //console.log(this.props.id);
     return (
       <div className="comment">
         <h3>
@@ -14,7 +14,7 @@ var Comment = React.createClass({
         {this.props.content}
         <form className="form-inline pull-right">
         <button className="btn btn-primary">Edit</button>
-        <button className="btn btn-danger" onClick={this.props.onCommentDelete.bind(this,this.props.id)} >Delete</button>
+        <button className="btn btn-danger" onClick={this.props.onCommentDelete.bind(this,this.props.key,this.props.id)} >Delete</button>
         </form>
         </h3>
       </div>
@@ -55,12 +55,14 @@ var CommentBox = React.createClass({
     });
   },
   handleCommentDelete: function(event,index,id) {
+      var comments = this.state.data;
     $.ajax({
       url: this.props.url + '/' + id,
       dataType: 'json',
       type: 'DELETE',
       success: function(data) {
-        //this.setState({data: data});
+          comments.splice(index,1);
+        this.setState({data: comments});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url+ '/' + id, status, err.toString());
@@ -91,7 +93,7 @@ var CommentList = React.createClass({
     var onCommentDelete = this.props.onCommentDelete;
     var commentNodes = this.props.data.map(function(comment, index) {
       return (
-        <Comment onCommentDelete={onCommentDelete.bind(this,index)} name={comment.name} content={comment.content} key={index} id={comment._id.$oid} url="/comment">
+        <Comment onCommentDelete={onCommentDelete} name={comment.name} content={comment.content} key={index} id={comment._id.$oid} url="/comment">
         </Comment>
       );
     });

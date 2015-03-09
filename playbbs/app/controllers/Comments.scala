@@ -7,6 +7,7 @@ import play.api.libs.json._
 import scala.concurrent.Future
 
 import reactivemongo.api._
+import reactivemongo.bson._
 
 import play.modules.reactivemongo.MongoController
 import play.modules.reactivemongo.json.collection.JSONCollection

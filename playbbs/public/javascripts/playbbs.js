@@ -55,17 +55,20 @@ var CommentBox = React.createClass({
   },
   handleCommentDelete: function(index,id) {
       var comments = this.state.data;
-    $.ajax({
-      url: this.props.urlpost + '/' + id,
-      type: 'DELETE',
-      success: function(data) {
-          comments.splice(index,1);
-        this.setState({data: comments});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.urlpost+ '/' + id, status, err.toString());
-      }.bind(this)
-    });
+      comments.splice(index,1);
+      this.setState({data: comments}, function() {
+         $.ajax({
+          url: this.props.urlpost + '/' + id,
+           type: 'DELETE',
+            success: function(data) {
+            this.setState({data: comments});
+         }.bind(this),
+         error: function(xhr, status, err) {
+          console.error(this.props.urlpost+ '/' + id, status, err.toString());
+           }.bind(this)
+         });
+      });
+
   },
   getInitialState: function() {
     return {data: []};

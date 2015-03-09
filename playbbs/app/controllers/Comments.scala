@@ -44,12 +44,14 @@ object CommentsApplication extends Controller with MongoController {
   }
     */
   def getAll = Action.async {
-    val cursor: Cursor[BSONDocument] = collection.find(Json.obj()).sort(Json.obj("_id" -> -1)).cursor[BSONDocument]
+    val cursor: Cursor[JsObject] = collection.find(Json.obj()).sort(Json.obj("_id" -> -1)).cursor[JsObject]
 
-    val futureCommentsList: Future[BSONArray[BSONDocument]] = cursor.collect[BSONArray]()
-
-    futureCommentsList.map { comments =>
-      Ok(comments.toString)
+    val futureCommentsList: Future[List[JsObject]] = cursor.collect[List]()
+    val futureCommentsJsonArray: Future[JsArray] = futureCommentsList.map { comments =>
+      Json.arr(comments)
+    }
+    futureCommentsJsonArray.map { comments =>
+      Ok(comments)
     }
   }
   

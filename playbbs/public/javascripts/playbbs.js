@@ -14,7 +14,7 @@ var Comment = React.createClass({
         </strong>
         {this.props.content}
         <div className="form-inline pull-right">
-        <button className="btn btn-primary">Edit</button>
+        <button className="btn btn-primary" disabled={disabled} onClick={this.props.onCommentEdit.bind(null,this.props.index,this.props.id)} >Edit</button>
         <button className="btn btn-danger" disabled={disabled} onClick={this.props.onCommentDelete.bind(null,this.props.index,this.props.id)} >Delete</button>
         </div>
         </h3>
@@ -54,6 +54,10 @@ var CommentBox = React.createClass({
       });
     });
   },
+  handleCommentEdit: function(index,id) {
+      console.log(id);
+      this.refs.form.handleCommentEdit(id, comments[index].name, comments[index].content );
+  },
   handleCommentDelete: function(index,id) {
       var comments = this.state.data;
       comments.splice(index,1);
@@ -81,8 +85,8 @@ var CommentBox = React.createClass({
     return (
       <div className="commentBox">
         <h1>Comments</h1>
-        <CommentForm onCommentSubmit={this.handleCommentSubmit} />
-        <CommentList data={this.state.data} onCommentDelete={this.handleCommentDelete} />
+        <CommentForm onCommentSubmit={this.handleCommentSubmit} ref="form"  />
+        <CommentList data={this.state.data} onCommentDelete={this.handleCommentDelete} onCommentEdit={this.handleCommentEdit}/>
         
       </div>
     );
@@ -92,10 +96,11 @@ var CommentBox = React.createClass({
 var CommentList = React.createClass({
   render: function() {
     var onCommentDelete = this.props.onCommentDelete;
+    var onCommentEdit = this.props.onCommentEdit;
     var commentNodes = this.props.data.map(function(comment, index) {
         var id = (comment._id === undefined) ? "" : comment._id.$oid;
       return (
-        <Comment onCommentDelete={onCommentDelete} name={comment.name} content={comment.content} key={index} index={index} id={id} url="/comment">
+        <Comment onCommentDelete={onCommentDelete} onCommentEdit={onCommentEdit} name={comment.name} content={comment.content} key={index} index={index} id={id} url="/comment">
         </Comment>
       );
     });
@@ -108,6 +113,9 @@ var CommentList = React.createClass({
 });
 
 var CommentForm = React.createClass({
+  handleCommentEdit: function(id,oldName,oldContent) {
+      console.log(id);
+  },
   handleSubmit: function(e) {
     e.preventDefault();
     var name = this.refs.name.getDOMNode().value.trim();

@@ -45,7 +45,7 @@ var CommentBox = React.createClass({
         type: 'POST',
         data: JSON.stringify(comment),
         success: function(data) {
-          this.setState({data: comment});
+          this.setState({data: comments});
         }.bind(this),
         error: function(xhr, status, err) {
           console.error(this.props.urlpost, status, err.toString());

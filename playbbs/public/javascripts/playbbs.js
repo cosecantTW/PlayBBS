@@ -12,10 +12,10 @@ var Comment = React.createClass({
           {this.props.name}&nbsp;:&nbsp;
         </strong>
         {this.props.content}
-        <form className="form-inline pull-right">
+        <div className="form-inline pull-right">
         <button className="btn btn-primary">Edit</button>
         <button className="btn btn-danger" onClick={this.props.onCommentDelete.bind(null,this.props.index,this.props.id)} >Delete</button>
-        </form>
+        </div>
         </h3>
       </div>
     );

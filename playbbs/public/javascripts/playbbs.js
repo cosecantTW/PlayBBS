@@ -55,7 +55,7 @@ var CommentBox = React.createClass({
   },
   handleCommentDelete: function(index,id) {
       var comments = this.state.data;
-      comments.splice(index,1);
+      //comments.splice(index,1);
       this.setState({data: comments}, function() {
          $.ajax({
           url: this.props.urlpost + '/' + id,

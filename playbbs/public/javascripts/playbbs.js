@@ -41,7 +41,6 @@ var CommentBox = React.createClass({
     this.setState({data: comments}, function() {
       $.ajax({
         url: this.props.urlpost,
-        dataType: 'json',
         contentType: 'text/json',
         type: 'POST',
         data: JSON.stringify(comment),
@@ -58,7 +57,6 @@ var CommentBox = React.createClass({
       var comments = this.state.data;
     $.ajax({
       url: this.props.urlpost + '/' + id,
-      dataType: 'json',
       type: 'DELETE',
       success: function(data) {
           comments.splice(index,1);

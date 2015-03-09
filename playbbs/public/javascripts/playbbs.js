@@ -2,6 +2,20 @@
 
 
 var Comment = React.createClass({
+  handleClickDelete: function(event) {
+    $.ajax({
+      url: this.props.url + '/' + this.props.id,
+      dataType: 'json',
+      type: 'DELETE',
+      success: function(data) {
+          React.unmountComponentAtNode(this.getDOMNode());
+        //this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url+ '/' + this.props.id, status, err.toString());
+      }.bind(this)
+    });
+  },
   render: function() {
     return (
       <div className="comment">
@@ -11,7 +25,10 @@ var Comment = React.createClass({
         </strong>
         {this.props.content}
         </h3>
-        <h4>{this.props.id}</h4>
+        <form className="form-inline pull-right">
+        <button className="btn btn-primary">Edit</button>
+        <button className="btn btn-danger" onClick={this.handleClickDelete} >Delete</button>
+        </form>
       </div>
     );
   }
@@ -72,7 +89,7 @@ var CommentList = React.createClass({
   render: function() {
     var commentNodes = this.props.data.map(function(comment, index) {
       return (
-        <Comment name={comment.name} content={comment.content} key={index} id={comment._id}>
+        <Comment name={comment.name} content={comment.content} key={index} id={comment._id} url="/comment">
         </Comment>
       );
     });

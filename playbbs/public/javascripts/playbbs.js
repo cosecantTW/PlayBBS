@@ -54,7 +54,9 @@ var CommentBox = React.createClass({
       });
     });
   },
-  handleCommentDelete: function(event,index,id) {
+  handleCommentDelete: function(index,id) {
+      console.log("handleCommentDelete "+index);
+      console.log("handleCommentDelete "+id);
       var comments = this.state.data;
     $.ajax({
       url: this.props.url + '/' + id,

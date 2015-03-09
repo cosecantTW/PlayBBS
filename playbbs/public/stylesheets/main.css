@@ -1,7 +1,28 @@
 
-.starter-template {
+.content {
   padding: 40px 15px;
   text-align: center;
+}
+
+.comment{
+    text-align: left;
+}
+
+.commentAuthor{
+    width:120px;
+}
+
+.commentBox {
+    margin: 0 auto;
+    max-width:600px;
+}
+
+.form-inline{
+    width:100%;
+}
+
+.form-inline input, .form-inline button{
+    margin-left: 10px;
 }
 
 body {

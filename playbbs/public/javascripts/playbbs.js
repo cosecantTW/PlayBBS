@@ -5,9 +5,12 @@ var Comment = React.createClass({
   render: function() {
     return (
       <div className="comment">
-        <h2 className="commentAuthor">
-          {this.props.name}
-        </h2>
+        <h3>
+        <strong className="commentAuthor">
+          {this.props.name}&nbsp;&nbsp;:
+        </strong>
+        {this.props.content}
+        </h3>
       </div>
     );
   }
@@ -68,8 +71,7 @@ var CommentList = React.createClass({
   render: function() {
     var commentNodes = this.props.data.map(function(comment, index) {
       return (
-        <Comment name={comment.name} key={index}>
-          {comment.content}
+        <Comment name={comment.name} content={comment.content} key={index}>
         </Comment>
       );
     });
@@ -95,10 +97,10 @@ var CommentForm = React.createClass({
   },
   render: function() {
     return (
-      <form className="commentForm" onSubmit={this.handleSubmit}>
-        <input type="text" placeholder="Your name" ref="name" />
-        <input type="text" placeholder="Say something..." ref="content" />
-        <input type="submit" value="Post" />
+      <form class="form-inline" className="commentForm" onSubmit={this.handleSubmit}>
+        <input type="text" class="form-control" placeholder="Your name" ref="name" />
+        <input type="text" class="form-control" placeholder="Say something..." ref="content" />
+        <button type="submit" class="btn btn-primary" value="Post" />
       </form>
     );
   }

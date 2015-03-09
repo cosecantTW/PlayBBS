@@ -36,14 +36,18 @@ var CommentBox = React.createClass({
       }.bind(this)
     });
   },
-  handleCommentSubmit: function(comment) {
+  handleCommentSubmit: function(comment,editindex,editid) {
     var comments = this.state.data;
-    comments.unshift(comment);
+    if (editindex == -1){
+        comments.unshift(comment);
+    } else {
+        comments[editindex] = comment;
+    }
     this.setState({data: comments}, function() {
       $.ajax({
-        url: this.props.urlpost,
+        url: this.props.urlpost + ((editindex == -1)? '' : '/' + editid),
         contentType: 'text/json',
-        type: 'POST',
+        type: (editindex == -1) ? 'POST' : 'PUT',
         data: JSON.stringify(comment),
         success: function(data) {
           this.setState({data: comments});
@@ -55,8 +59,7 @@ var CommentBox = React.createClass({
     });
   },
   handleCommentEdit: function(index,id) {
-      console.log(id);
-      this.refs.form.handleCommentEdit(id, this.state.data[index].name, this.state.data[index].content );
+      this.refs.form.handleCommentEdit(index, id, this.state.data[index].name, this.state.data[index].content );
   },
   handleCommentDelete: function(index,id) {
       var comments = this.state.data;
@@ -113,8 +116,13 @@ var CommentList = React.createClass({
 });
 
 var CommentForm = React.createClass({
-  handleCommentEdit: function(id,oldName,oldContent) {
-      console.log(id);
+  getInitialState: function() {
+    return {editid: "", editindex:-1};
+  },
+  handleCommentEdit: function(index,id,oldName,oldContent) {
+      this.refs.name.getDOMNode().value = oldName;
+      this.refs.content.getDOMNode().value = oldContent;
+      this.setState({editid: id,editindex:index});
   },
   handleSubmit: function(e) {
     e.preventDefault();
@@ -123,21 +131,26 @@ var CommentForm = React.createClass({
     if (!content || !name) {
       return;
     }
-    this.props.onCommentSubmit({name: name, content: content});
+    this.props.onCommentSubmit({name: name, content: content}, this.state.editindex, this.state.editid);
     this.refs.name.getDOMNode().value = '';
     this.refs.content.getDOMNode().value = '';
   },
   handleClickClear: function(event) {
+      if (this.state.editid != ""){
+          this.setState({editid: "",editindex:-1});
+      }
     this.refs.name.getDOMNode().value = '';
     this.refs.content.getDOMNode().value = '';
   },
   render: function() {
+      var clearbtn = (this.state.editid == "") ? "Clear" : "Cancel";
+
     return (
       <form className="commentForm form-inline" onSubmit={this.handleSubmit}>
         <input type="text" className="form-control" placeholder="Your name" ref="name" />
         <input type="text" className="form-control" placeholder="Say something..." ref="content" />
         <button type="submit" className="btn btn-primary" value="Post" >Submit</button>
-        <button className="btn btn-warning" onClick={this.handleClickClear} >Clear</button>
+        <button className="btn btn-warning" onClick={this.handleClickClear} >{clearbtn}</button>
       </form>
     );
   }

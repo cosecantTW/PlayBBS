@@ -5,6 +5,7 @@ var Comment = React.createClass({
   
   render: function() {
       //console.log(this.props.id);
+      var disabled = (this.props.id == "") ? "disabled" : "";
     return (
       <div className="comment">
         <h3>
@@ -14,7 +15,7 @@ var Comment = React.createClass({
         {this.props.content}
         <div className="form-inline pull-right">
         <button className="btn btn-primary">Edit</button>
-        <button className="btn btn-danger" onClick={this.props.onCommentDelete.bind(null,this.props.index,this.props.id)} >Delete</button>
+        <button className="btn btn-danger" disabled={disabled} onClick={this.props.onCommentDelete.bind(null,this.props.index,this.props.id)} >Delete</button>
         </div>
         </h3>
       </div>

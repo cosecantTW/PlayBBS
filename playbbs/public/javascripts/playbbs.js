@@ -68,6 +68,7 @@ var CommentBox = React.createClass({
           console.error(this.props.urlpost+ '/' + id, status, err.toString());
            }.bind(this)
          });
+         return false;
       });
 
   },

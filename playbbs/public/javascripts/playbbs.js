@@ -56,7 +56,7 @@ var CommentBox = React.createClass({
   },
   handleCommentEdit: function(index,id) {
       console.log(id);
-      this.refs.form.handleCommentEdit(id, comments[index].name, comments[index].content );
+      this.refs.form.handleCommentEdit(id, this.state.data[index].name, this.state.data[index].content );
   },
   handleCommentDelete: function(index,id) {
       var comments = this.state.data;

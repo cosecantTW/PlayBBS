@@ -9,8 +9,9 @@ var Comment = React.createClass({
         <strong className="commentAuthor">
           {this.props.name}&nbsp;:&nbsp;
         </strong>
-        {this.props.content}({this.props.id})
+        {this.props.content}
         </h3>
+        <h4>{this.props.id}</h4>
       </div>
     );
   }
